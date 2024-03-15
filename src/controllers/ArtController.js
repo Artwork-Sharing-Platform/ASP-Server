@@ -55,7 +55,6 @@ class ArtController {
   async getAllArtworkCreateAtArt(req, res, next) {
     try {
       const artWorks = await ArtServices.getAllArtworkByCreatedAtArt();
-      const artWorks = await ArtServices.getAllArtworkByCreatedAtArt();
       res.status(200).json(artWorks);
     } catch (error) {
       res.status(500).json({ message: "Internal Server Error" });
