@@ -1,6 +1,7 @@
 import reportService from "../services/ReportServices.js";
 
 class ReportController {
+  //[POST] /api/v1/report/createReport
   async createReport(req, res, next) {
     try {
       const reportData = req.body;
@@ -11,7 +12,7 @@ class ReportController {
       next();
     }
   }
-
+//[Get] /api/v1/report/getListReport
   async getListReport(req, res) {
     try {
       const reportList = await reportService.getListReport();
@@ -20,6 +21,8 @@ class ReportController {
       res.status(500).json({ error: error.message });
     }
   }
+
+  //[GET] /api/v1/report/:artID
   async getReportByArtId(req, res) {
     try {
       const data = await reportService.getReportByArtId(req.params.artID);
@@ -28,6 +31,7 @@ class ReportController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+  //[PUT] /api/v1/report/:reportID
   async updateReportStatus(req, res) {
     try {
       const data = await reportService.updateReportStatus(
