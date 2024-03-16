@@ -45,6 +45,7 @@ class ReportService {
       throw err;
     }
   }
+
   async sendWarning(report) {
     try {
       let typeWarning;
@@ -67,6 +68,5 @@ class ReportService {
       throw err;
     }
   }
-
 }
 export default new ReportService();
