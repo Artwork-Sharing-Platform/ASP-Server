@@ -355,10 +355,12 @@ class ArtServices {
       if (!art) {
         throw new Error("Art not found");
       }
-      art.categoryId = artUpdate.categoryId;
       art.access = artUpdate.access;
-      art.title = artUpdate.title;
       art.description = artUpdate.description;
+      art.isCheckedComment = artUpdate.isCheckedComment;
+      art.isCheckedSimilar = artUpdate.isCheckedSimilar;
+      art.link = artUpdate.link;
+      art.title = artUpdate.title;
 
       const newArt = new Art(art);
 
