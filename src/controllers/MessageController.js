@@ -1,6 +1,8 @@
 import messageService from "../services/MessageServices.js";
 
 class MessageController {
+
+  //[POST] /api/v1/message/newMessage
   async newMessage(req, res, next) {
     try {
       const newMessage = await messageService.newMessage(req.body);
@@ -11,6 +13,7 @@ class MessageController {
     }
   }
 
+  //[GET] /api/v1/getMessage/:conversationId
   async getMessage(req, res, next) {
     try {
       const { conversationId } = req.params;
@@ -22,6 +25,7 @@ class MessageController {
     }
   }
 
+  //[GET] /api/v1/getMessageUnseen/:userId
   async getMessageUnseen(req, res, next) {
     try {
       const { userId } = req.params;

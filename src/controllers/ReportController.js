@@ -1,3 +1,4 @@
+import e from "express";
 import reportService from "../services/ReportServices.js";
 
 class ReportController {
@@ -12,11 +13,11 @@ class ReportController {
       next();
     }
   }
-//[Get] /api/v1/report/getListReport
+//[GET] /api/v1/report/getListReport
   async getListReport(req, res) {
     try {
       const reportList = await reportService.getListReport();
-      return res.status(200).json({ success: true, data: reportList });
+      return res.status(200).json(reportList);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -27,10 +28,11 @@ class ReportController {
     try {
       const data = await reportService.getReportByArtId(req.params.artID);
       res.status(200).json(data);
-    } catch (err) {
-      res.status(500).json({ message: "Internal Server Error" });
+    } catch (error) {
+      res.status(500).json({ message: error.message});
     }
   }
+  
   //[PUT] /api/v1/report/:reportID
   async updateReportStatus(req, res) {
     try {
@@ -39,8 +41,18 @@ class ReportController {
         req.body.reportStatus
       );
       res.status(200).json({ message: "Success" });
-    } catch (err) {
-      res.status(500).json({ message: "Internal Server Error" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  //[POST] /api/v1/report/sendWarning
+  async sendWarning(req, res) {
+    try {
+      const report = req.body;
+      const result = await reportService.sendWarning(report);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
   }
 }

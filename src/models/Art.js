@@ -63,6 +63,10 @@ const schema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    countReport: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

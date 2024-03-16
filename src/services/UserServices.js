@@ -76,22 +76,6 @@ class UserService {
       throw error;
     }
   }
-
-  async updateStatus(userId, updateUser) {
-    try {
-      const user = await User.findOne({ _id: userId });
-      if (!user) {
-        throw new Error("User not found");
-      }
-
-      user.status = updateUser.status;
-
-      const userUpdate = await user.save();
-      return userUpdate;
-    } catch (error) {
-      throw error;
-    }
-  }
 }
 
 export default new UserService();

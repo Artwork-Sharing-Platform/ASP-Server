@@ -10,7 +10,7 @@ class ArtController {
       const searchList = await ArtServices.search(search);
       res.status(200).json(searchList);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: error.message });
       next();
     }
   }
@@ -21,8 +21,9 @@ class ArtController {
       const newArt = req.body;
       const newArtwork = await ArtServices.postArt(newArt);
       if (newArtwork != null) {
-
-        await NotificationServices.sendPostArtworkNotificationToFollowers(newArtwork);
+        await NotificationServices.sendPosntArtworkNotificationToFollowers(
+          newArtwork
+        );
 
         if (newArtwork.isCheckedAds === true) {
           await ArtServices.schedulePostPush(newArtwork);
@@ -31,11 +32,11 @@ class ArtController {
             .json({ message: "Post pushed to top successfully" });
         }
       } else {
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: error.message });
       }
       res.status(200).json(newArtwork);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: error.message });
       next();
     }
   }
@@ -46,7 +47,18 @@ class ArtController {
       const artWorks = await ArtServices.getAllArtwork();
       res.status(200).json(artWorks);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: error.message });
+      next();
+    }
+  }
+
+  //[GET] /api/v1/art/getArtworkV2
+  async getAllArtworkV2(req, res, next) {
+    try {
+      const artWorks = await ArtServices.getAllArtworkV2();
+      res.status(200).json(artWorks);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
       next();
     }
   }
@@ -55,10 +67,10 @@ class ArtController {
   async getAllArtworkCreateAtArt(req, res, next) {
     try {
       const artWorks = await ArtServices.getAllArtworkByCreatedAtArt();
-      
+
       res.status(200).json(artWorks);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: error.message });
       next();
     }
   }
@@ -70,7 +82,19 @@ class ArtController {
       const artWork = await ArtServices.getAllArtworkById(id);
       res.status(200).json(artWork);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: error.message });
+      next();
+    }
+  }
+
+  //[GET] /api/v1/art/getArtworkByIdV2/:id
+  async getAllArtworkByIdV2(req, res, next) {
+    try {
+      const { id } = req.params;
+      const artWork = await ArtServices.getAllArtworkByIdV2(id);
+      res.status(200).json(artWork);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
       next();
     }
   }
@@ -82,7 +106,7 @@ class ArtController {
       const artWorks = await ArtServices.getAllArtworkByUserId(userId);
       res.status(200).json(artWorks);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message:error.message });
       next();
     }
   }
@@ -95,7 +119,7 @@ class ArtController {
       const art = await ArtServices.addReaction(artId, userId, reaction);
       res.status(200).json(art);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: error.message });
       next();
     }
   }
@@ -110,7 +134,7 @@ class ArtController {
       );
       res.status(200).json(reaction);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: error.message });
       next();
     }
   }
@@ -126,7 +150,7 @@ class ArtController {
       res.status(200).json({ reactionLength });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: error.message });
     }
   }
 
@@ -141,7 +165,33 @@ class ArtController {
       res.status(200).json(artworks);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  //[POST] /api/v1/art/updateArtworkStatus
+  async updateArtworkStatus(req, res, next) {
+    try {
+      const art = req.body;
+      const artWork = await ArtServices.updateArtworkStatus(art);
+      res.status(200).json(artWork);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  //[POST] /api/v1/art/editArtwork/:id
+  async editArtwork(req, res, next) {
+    try {
+      const { artId } = req.params;
+      const artUpdate = req.body;
+
+      const artUpdated = await ArtServices.updateArtworkById(artId, artUpdate);
+
+      res.status(200).json(artUpdated);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+      next();
     }
   }
 }

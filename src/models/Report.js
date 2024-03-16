@@ -4,7 +4,6 @@ const schema = new mongoose.Schema(
     userID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      default: 0,
     },
     artID: {
       type: mongoose.Schema.Types.ObjectId,

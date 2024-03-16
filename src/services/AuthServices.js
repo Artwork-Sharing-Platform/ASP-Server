@@ -17,6 +17,10 @@ class AuthService {
         throw new Error("User not found. Please check your credentials.");
       }
 
+      if (!user.status) {
+        throw new Error("Your account has been locked.");
+      }
+
       if (loginData.password) {
         const isPasswordValid = await bcrypt.compare(
           loginData.password,
@@ -25,7 +29,8 @@ class AuthService {
         if (!isPasswordValid) {
           throw new Error("Password incorrect. Please check your credentials.");
         }
-        return generateTokens(user);
+        const tokens = await generateTokens(user);
+        return { user, tokens };
       } else {
         throw new Error("Password is required for login.");
       }
@@ -39,7 +44,11 @@ class AuthService {
       let user;
       user = await User.findOne({ email: userData.email });
       if (user) {
-        return generateTokens(user);
+        if (!user.status) {
+          throw new Error("Your account has been locked.");
+        }
+        const tokens = await generateTokens(user);
+        return { user, tokens };
       } else {
         user = new User({
           firstName: userData.given_name,
@@ -50,7 +59,7 @@ class AuthService {
         });
         await user.save();
         const tokens = await generateTokens(user);
-        return tokens;
+        return { user, tokens };
       }
     } catch (error) {
       throw error;

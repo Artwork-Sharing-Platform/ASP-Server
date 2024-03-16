@@ -49,7 +49,7 @@ class UserController {
   async getListUser(req, res) {
     try {
       const userList = await UserService.getListUser();
-      return res.status(200).json({ success: true, data: userList });
+      return res.status(200).json(userList);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -60,9 +60,9 @@ class UserController {
       const { id } = req.params;
       const updateStatus = req.body;
 
-      await UserService.updateStatus(id, updateStatus);
+      const updatedUser = await UserService.updateStatus(id, updateStatus);
 
-      res.status(200).json("Status is updated");
+      res.status(200).json(updatedUser);
     } catch (error) {
       res.status(500).json({ error: error.message });
       next();

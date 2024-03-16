@@ -1,11 +1,14 @@
 import { Follow } from "../models/Follow.js";
 import NotificationServices from "./NotificationServices.js";
 class FollowService {
+
   async create(followerId, followingId) {
     try {
       if (!followerId || !followingId) {
         throw new Error("followerId and followingId are required");
       }
+
+      //Check if the record exists or not
       const existingFollow = await Follow.findOne({ followerId, followingId });
 
       if (existingFollow) {
@@ -14,6 +17,8 @@ class FollowService {
       }
 
       const newFollow = await Follow.create({ followerId, followingId });
+
+      //Send notifications to followed people
       await NotificationServices.sendFollowNotificationToFollowers(
         newFollow.followerId,
         newFollow.followingId
@@ -27,10 +32,10 @@ class FollowService {
 
   async getFollower(followingId) {
     try {
-      // Tìm các bản ghi trong Follow có followingId tương ứng
+      // Find records in Follow that have the corresponding followingId
       const followers = await Follow.find({ followingId: followingId });
 
-      // Trích xuất followerId từ các bản ghi tìm được
+      // Extract followerId from found records
       const followerIds = followers.map((follower) => follower.followerId);
       return followerIds;
     } catch (error) {
@@ -40,10 +45,10 @@ class FollowService {
 
   async getFollowing(followerId) {
     try {
-      // Tìm các bản ghi trong Follow có followerId tương ứng
+      // Find records in Follow that have the corresponding followerId
       const followings = await Follow.find({ followerId: followerId });
 
-      // Trích xuất followingId từ các bản ghi tìm được
+      // Extract followingId from found records
       const followingIds = followings.map((following) => following.followingId);
       return followingIds;
     } catch (error) {
