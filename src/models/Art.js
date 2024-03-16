@@ -37,7 +37,6 @@ const schema = new mongoose.Schema(
     },
     createdAtArt: {
       type: Date,
-      default: Date.now(),
     },
     commentId: {
       type: mongoose.Schema.Types.ObjectId,

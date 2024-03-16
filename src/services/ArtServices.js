@@ -94,6 +94,7 @@ class ArtServices {
       await feature.save();
 
       const newArtwork = new Art(newArt);
+      newArtwork.createdAtArt = Date.now();
       await newArtwork.save();
 
       const artService = new ArtServices();

@@ -215,7 +215,7 @@ class NotificationService {
       throw error;
     }
   }
- 
+
   async sendWarningNotification(report, typeWarning) {
     try {
       const receiver = await User.findOne({ _id: report.creator_id });
@@ -229,7 +229,7 @@ class NotificationService {
         receiverId: receiver._id,
         senderId: sender._id,
         senderAvatar: sender.avatar,
-        type: new_warning_artwork,
+        type: "new_warning_artwork",
         content:
           typeWarning === "warning"
             ? `Dear <span style="font-weight: 600">${
@@ -244,11 +244,9 @@ class NotificationService {
               } </span>, we regret to inform you that your artwork has been locked due to multiple reports. Please contact our administration team to address any concerns before it can be reinstated.`,
         hyperLink: typeWarning === "warning" ? `/pin/${art._id}` : "",
       };
-      
 
       // Save notification to Notification table
       await this.saveNotification(notificationData);
-      
     } catch (error) {
       throw error;
     }
@@ -263,7 +261,6 @@ class NotificationService {
       }
       const artResponse = await Art.findOne({ _id: art.key });
       const sender = await User.findOne({ type: "Admin" });
-      console.log(artResponse);
       const notificationData = {
         receiverId: receiver._id,
         senderId: sender._id,
@@ -274,7 +271,7 @@ class NotificationService {
             ? receiver.userName
             : receiver.firstName + " " + receiver.lastName
         } </span>, your art has been unlocked by the admin. Please ensure careful consideration of art content for future posts to maintain community guidelines. Thank you.`,
-        hyperLink: `/art/${artResponse_id}`,
+        hyperLink: `/art/${artResponse._id}`,
       };
       // Save notification to Notification table
       await this.saveNotification(notificationData);
