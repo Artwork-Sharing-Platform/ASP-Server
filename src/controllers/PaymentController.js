@@ -46,7 +46,7 @@ class PaymentController {
         amount,
         type
       );
-      res.redirect("http://localhost:3000/");
+      res.redirect(process.env.REACT_APP_CLIENT);
       return;
     } catch (error) {
       console.error("Failed to process VnPay return:", error.message);
@@ -66,7 +66,7 @@ class PaymentController {
         amount,
         type
       );
-      res.redirect("http://localhost:3000/");
+      res.redirect(process.env.REACT_APP_CLIENT);
       return;
     } catch (error) {
       console.error("Failed to process VnPay return:", error.message);
