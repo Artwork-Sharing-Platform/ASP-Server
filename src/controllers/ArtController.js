@@ -21,7 +21,7 @@ class ArtController {
       const newArt = req.body;
       const newArtwork = await ArtServices.postArt(newArt);
       if (newArtwork != null) {
-        await NotificationServices.sendPosntArtworkNotificationToFollowers(
+        await NotificationServices.sendPostArtworkNotificationToFollowers(
           newArtwork
         );
 
