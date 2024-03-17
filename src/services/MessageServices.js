@@ -10,7 +10,10 @@ class MessageService {
         Message.create(newMessage),
         Conversation.findByIdAndUpdate(
           conversationId,
-          { lastMessage: type === "text" ? message : "image" },
+          {
+            lastMessage:
+              type === "text" ? message : type === "link" ? "link" : "image",
+          },
           { new: true }
         ),
       ]);

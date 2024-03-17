@@ -25,6 +25,6 @@ router.get(
 router.post("/postArtwork", artController.addArtwork);
 router.post("/add-reaction/:artId", artController.addReaction);
 router.post("/updateArtworkStatus", artController.updateArtworkStatus);
-router.post("/editArtwork/:id", artController.editArtwork);
+router.post("/editArtwork/:artId", artController.editArtwork);
 
 export default router;

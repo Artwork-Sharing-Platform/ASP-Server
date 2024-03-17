@@ -351,7 +351,7 @@ class ArtServices {
 
   async updateArtworkById(artId, artUpdate) {
     try {
-      const art = await Art.findOne({ artId });
+      const art = await Art.findOne({ _id: artId });
       if (!art) {
         throw new Error("Art not found");
       }

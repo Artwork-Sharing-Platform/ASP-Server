@@ -19,7 +19,7 @@ class SaveService {
         await feature.save();
       }
       await save.save();
-      return save;
+      return { save, feature };
     } catch (error) {
       console.error("Error saving artwork:", error);
       throw error;

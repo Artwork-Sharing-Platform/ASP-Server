@@ -70,6 +70,12 @@ class AuthService {
     try {
       let newUser = new User(userData);
 
+      if (!userData.email || !userData.password || !userData.dob) {
+        throw new Error(
+          "All fields (email, password, date of birth) are required."
+        );
+      }
+
       if (validator.isEmail(userData.email)) {
         const existingUser = await User.findOne({ email: userData.email });
         if (existingUser) {
@@ -80,9 +86,10 @@ class AuthService {
         throw new Error("Invalid email address. Please provide a valid email.");
       }
 
-      if (userData.password) {
-        const hashedPassword = await bcrypt.hash(userData.password, 10);
-        newUser.password = hashedPassword;
+      if (userData.password !== null && userData.password !== undefined) {
+        userData.password = await bcrypt.hash(userData.password, 10);
+      } else {
+        throw new Error("Password is required.");
       }
 
       newUser.avatar =
