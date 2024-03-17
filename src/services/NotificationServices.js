@@ -7,7 +7,6 @@ import { Notification } from "../models/Notification.js";
 class NotificationService {
   async sendPostArtworkNotificationToFollowers(newArt) {
     try {
-      // Fetch the user information based on userId
       const user = await User.findById(newArt.userId);
 
       if (!user) {

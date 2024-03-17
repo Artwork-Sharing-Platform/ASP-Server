@@ -83,15 +83,17 @@ class ArtServices {
 
       newArt.categoryId = category._id;
 
-      if (newArt.access === "private" && feature.countPostPrivate > 0) {
-        feature.countPostPrivate -= 1;
-      }
+      if (feature) {
+        if (newArt.access === "private" && feature.countPostPrivate > 0) {
+          feature.countPostPrivate -= 1;
+        }
 
-      if (newArt.isCheckedAds && feature.countAds > 0) {
-        feature.countAds -= 1;
-      }
+        if (newArt.isCheckedAds && feature.countAds > 0) {
+          feature.countAds -= 1;
+        }
 
-      await feature.save();
+        await feature.save();
+      }
 
       const newArtwork = new Art(newArt);
       newArtwork.createdAtArt = Date.now();
