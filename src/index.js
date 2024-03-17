@@ -14,7 +14,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "https://pesterin.vercel.app",
-    methods: ["GET","POST"]
+    methods: ["GET", "POST"],
   },
 });
 const PORT = process.env.PORT || 5000;
@@ -72,5 +72,5 @@ route(app);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log(`Link: https://localhost:${PORT}`):5000;
+  console.log(`Link: https://localhost:${PORT}`);
 });

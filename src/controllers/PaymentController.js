@@ -46,7 +46,7 @@ class PaymentController {
         amount,
         type
       );
-      res.redirect(process.env.REACT_APP_CLIENT);
+      res.redirect("https://pesterin.vercel.app/");
       return;
     } catch (error) {
       console.error("Failed to process VnPay return:", error.message);
@@ -66,7 +66,7 @@ class PaymentController {
         amount,
         type
       );
-      res.redirect(process.env.REACT_APP_CLIENT);
+      res.redirect("https://pesterin.vercel.app/");
       return;
     } catch (error) {
       console.error("Failed to process VnPay return:", error.message);
