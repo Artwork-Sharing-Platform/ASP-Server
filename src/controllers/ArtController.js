@@ -20,20 +20,6 @@ class ArtController {
     try {
       const newArt = req.body;
       const newArtwork = await ArtServices.postArt(newArt);
-      if (newArtwork != null) {
-        await NotificationServices.sendPostArtworkNotificationToFollowers(
-          newArtwork
-        );
-
-        if (newArtwork.isCheckedAds === true) {
-          await ArtServices.schedulePostPush(newArtwork);
-          return res
-            .status(200)
-            .json({ message: "Post pushed to top successfully" });
-        }
-      } else {
-        res.status(500).json({ message: error.message });
-      }
       res.status(200).json(newArtwork);
     } catch (error) {
       res.status(500).json({ message: error.message });
