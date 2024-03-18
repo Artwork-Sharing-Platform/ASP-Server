@@ -49,9 +49,8 @@ class PaymentController {
       res.redirect("https://pesterin.vercel.app/");
       return;
     } catch (error) {
-      console.error("Failed to process VnPay return:", error.message);
-      res.status(500).json({ error: "Failed to process VnPay return" });
-      next(error);
+      res.status(500).json({ error: error.message });
+      next();
     }
   }
 
@@ -69,9 +68,8 @@ class PaymentController {
       res.redirect("https://pesterin.vercel.app/");
       return;
     } catch (error) {
-      console.error("Failed to process VnPay return:", error.message);
-      res.status(500).json({ error: "Failed to process VnPay return" });
-      next(error);
+      res.status(500).json({ error: error.message });
+      next();
     }
   }
 }

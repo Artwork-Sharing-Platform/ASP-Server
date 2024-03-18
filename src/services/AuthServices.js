@@ -87,7 +87,8 @@ class AuthService {
       }
 
       if (userData.password !== null && userData.password !== undefined) {
-        userData.password = await bcrypt.hash(userData.password, 10);
+        const hashedPassword = await bcrypt.hash(userData.password, 10);
+        newUser.password = hashedPassword;
       } else {
         throw new Error("Password is required.");
       }
@@ -124,7 +125,7 @@ class AuthService {
       }
 
       const newAccessToken = jwt.sign(
-        { userId: user._id },
+        { userId: user._id, role: user.type },
         process.env.ACCESS_TOKEN_SECRET_KEY,
         { expiresIn: "1m" }
       );
