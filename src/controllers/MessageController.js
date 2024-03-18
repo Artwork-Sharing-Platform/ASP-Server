@@ -37,6 +37,7 @@ class MessageController {
     }
   }
 
+  //[GET] /api/v1/markMessagesAsSeen/:conversationId/:userId
   async markMessagesAsSeen(req, res, next) {
     try {
       const { conversationId, userId } = req.params;

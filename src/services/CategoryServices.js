@@ -2,31 +2,53 @@ import { Category } from "../models/Category.js";
 
 class CategoryService {
   async addNewCategories(models) {
-    const categories = await Promise.all(models.map(async (model) => {
-      const category = new Category(model);
-      await category.save();
-      return category;
-    }));
-    return categories;
+    try {
+      const categories = await Promise.all(
+        models.map(async (model) => {
+          const category = new Category(model);
+          await category.save();
+          return category;
+        })
+      );
+      return categories;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async searchCategoryByName(partialName) {
-    const categories = await Category.find(
-      { name: { $regex: new RegExp(partialName, "i") } },
-      { name: 1, _id: 0 }
-    );
-    return categories.map((category) => category.name);
+    try {
+      const categories = await Category.find(
+        { name: { $regex: new RegExp(partialName, "i") } },
+        { name: 1, _id: 0 }
+      );
+      const response = categories.map((category) => category.name);
+
+      return response;
+    } catch (error) {
+      throw new Error(`Error searching category: ${error.message}`);
+    }
   }
 
   async getCategoryNames() {
-    return Category.find({}, "name").map((category) => ({
-      categoryName: category.name,
-      id: category._id,
-    }));
+    try {
+      const categories = await Category.find({}, "name");
+      return categories.map((category) => ({
+        categoryName: category.name,
+        id: category._id,
+      }));
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getCategoryById(categoryId) {
-    return Category.find({ _id: categoryId });
+    try {
+      const categories = await Category.find({ _id: categoryId });
+      return categories;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 
