@@ -83,26 +83,23 @@ class ArtServices {
 
       newArt.categoryId = category._id;
 
-      if (feature) {
-        if (newArt.access === "private" && feature.countPostPrivate > 0) {
-          feature.countPostPrivate -= 1;
-        }
-
-        if (newArt.isCheckedAds && feature.countAds > 0) {
-          feature.countAds -= 1;
-        }
-
-        await feature.save();
+      if (newArt.access === "private" && feature.countPostPrivate > 0) {
+        feature.countPostPrivate -= 1;
       }
 
+      if (newArt.isCheckedAds && feature.countAds > 0) {
+        feature.countAds -= 1;
+      }
+
+      await feature.save();
+
       const newArtwork = new Art(newArt);
-      newArtwork.createdAtArt = Date.now();
       await newArtwork.save();
 
       const artService = new ArtServices();
       await NotificationService.sendPostArtworkNotificationToFollowers(newArtwork);
 
-      if (newArtwork.isCheckedAds) {
+      if (newArtwork.isCheckedAds === true) {
         await artService.schedulePostPush(newArtwork);
       }
 
@@ -355,16 +352,14 @@ class ArtServices {
 
   async updateArtworkById(artId, artUpdate) {
     try {
-      const art = await Art.findOne({ _id: artId });
+      const art = await Art.findOne({ artId });
       if (!art) {
         throw new Error("Art not found");
       }
+      art.categoryId = artUpdate.categoryId;
       art.access = artUpdate.access;
-      art.description = artUpdate.description;
-      art.isCheckedComment = artUpdate.isCheckedComment;
-      art.isCheckedSimilar = artUpdate.isCheckedSimilar;
-      art.link = artUpdate.link;
       art.title = artUpdate.title;
+      art.description = artUpdate.description;
 
       const newArt = new Art(art);
 
