@@ -76,6 +76,17 @@ class UserService {
       throw error;
     }
   }
+
+  async updateStatus(id, updateStatus) {
+    try {
+      const user = await User.findOne({ _id: id });
+      user.status = updateStatus.status;
+      await user.save();
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default new UserService();
