@@ -83,17 +83,20 @@ class ArtServices {
 
       newArt.categoryId = category._id;
 
-      if (newArt.access === "private" && feature.countPostPrivate > 0) {
-        feature.countPostPrivate -= 1;
-      }
+      if (feature) {
+        if (newArt.access === "private" && feature.countPostPrivate > 0) {
+          feature.countPostPrivate -= 1;
+        }
 
-      if (newArt.isCheckedAds && feature.countAds > 0) {
-        feature.countAds -= 1;
-      }
+        if (newArt.isCheckedAds && feature.countAds > 0) {
+          feature.countAds -= 1;
+        }
 
-      await feature.save();
+        await feature.save();
+      }
 
       const newArtwork = new Art(newArt);
+      newArtwork.createdAtArt = Date.now();
       await newArtwork.save();
 
       const artService = new ArtServices();
@@ -352,14 +355,16 @@ class ArtServices {
 
   async updateArtworkById(artId, artUpdate) {
     try {
-      const art = await Art.findOne({ artId });
+      const art = await Art.findOne({ _id: artId });
       if (!art) {
         throw new Error("Art not found");
       }
-      art.categoryId = artUpdate.categoryId;
       art.access = artUpdate.access;
-      art.title = artUpdate.title;
       art.description = artUpdate.description;
+      art.isCheckedComment = artUpdate.isCheckedComment;
+      art.isCheckedSimilar = artUpdate.isCheckedSimilar;
+      art.link = artUpdate.link;
+      art.title = artUpdate.title;
 
       const newArt = new Art(art);
 

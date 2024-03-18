@@ -92,7 +92,7 @@ class ArtController {
       const artWorks = await ArtServices.getAllArtworkByUserId(userId);
       res.status(200).json(artWorks);
     } catch (error) {
-      res.status(500).json({ message:error.message });
+      res.status(500).json({ message: error.message });
       next();
     }
   }
@@ -166,7 +166,7 @@ class ArtController {
     }
   }
 
-  //[POST] /api/v1/art/editArtwork/:id
+  //[POST] /api/v1/art/editArtwork/:artId
   async editArtwork(req, res, next) {
     try {
       const { artId } = req.params;

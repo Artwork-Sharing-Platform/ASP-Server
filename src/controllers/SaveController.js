@@ -1,17 +1,17 @@
 import saveService from "../services/SaveServices.js";
 
 class SaveController {
-  //[POST] /api/v1/save/saveArwork
+  //[POST] /api/v1/save/saveArtwork
   async saveArtToBookmark(req, res) {
     try {
       const { userID, artID } = req.body;
       const savedArtwork = await saveService.saveArtToBookmark(userID, artID);
       res.status(200).json(savedArtwork);
     } catch (err) {
-      res.status(500).json({ message: error.message});
+      res.status(500).json({ message: error.message });
     }
   }
-  //[Get] /api/v1/save/getAllArts/:userId
+  //[GET] /api/v1/save/getAllArts/:userId
   async getAllArtIDsForUser(req, res) {
     try {
       const { userId } = req.params;
@@ -22,7 +22,7 @@ class SaveController {
       res.status(500).json({ success: false, error: error.message });
     }
   }
-//[DELETE] /api/v1/save
+  //[DELETE] /api/v1/save
   async removeArtFromBookmark(req, res) {
     try {
       const data = await saveService.removeArtFromBookmark(
