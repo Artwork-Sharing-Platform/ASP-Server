@@ -21,4 +21,9 @@ router.get(
   paymentController.vnPayReturnUpgrade
 );
 
+router.get(
+  "/createPaymentUrl",
+  paymentController.createPaymentUrlRegisterCreator
+);
+
 export default router;
