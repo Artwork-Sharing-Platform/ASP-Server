@@ -80,9 +80,12 @@ class UserService {
   async updateStatus(id, updateStatus) {
     try {
       const user = await User.findOne({ _id: id });
+      if(!user) {
+        throw new Error("User not found")
+      }
       user.status = updateStatus.status;
-      await user.save();
-      return user;
+      const updatedUser = await user.save();
+      return updatedUser;
     } catch (error) {
       throw error;
     }

@@ -38,19 +38,6 @@ class ConversationController {
       next();
     }
   }
-
-  async getConversationById(req, res, next) {
-    try {
-      const { conversationId } = req.params;
-      const conversation = await conversationService.getConversationById(
-        conversationId
-      );
-      res.status(200).json(conversation);
-    } catch (err) {
-      res.status(500).json({ message: "Internal Server Error" });
-      next();
-    }
-  }
 }
 
 export default new ConversationController();

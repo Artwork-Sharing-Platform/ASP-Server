@@ -71,16 +71,18 @@ class NotificationService {
         return;
       }
       const sender = await User.findById(commentData.author.userId);
-      const notificationData = {
-        receiverId: creator._id,
-        senderId: sender._id,
-        senderAvatar: sender.avatar,
-        type: "new_comment",
-        content: `<span style="font-weight: 600">${sender.userName}</span> commented on your post: <span style="font-weight: 600">${art.title}</span>`,
-        hyperLink: `/pin/${art._id}`,
-      };
-      // Save notification to Notification table
-      await this.saveNotification(notificationData);
+      if (creator._id.toString() !== sender._id.toString()) {
+        const notificationData = {
+          receiverId: creator._id,
+          senderId: sender._id,
+          senderAvatar: sender.avatar,
+          type: "new_comment",
+          content: `<span style="font-weight: 600">${sender.userName}</span> commented on your post: <span style="font-weight: 600">${art.title}</span>`,
+          hyperLink: `/pin/${art._id}`,
+        };
+        // Save notification to Notification table
+        await this.saveNotification(notificationData);
+      }
     } catch (error) {
       throw error;
     }
@@ -99,16 +101,18 @@ class NotificationService {
         return;
       }
       const sender = await User.findById(replyCommentData.author.userId);
-      const notificationData = {
-        receiverId: receiver._id,
-        senderId: sender._id,
-        senderAvatar: sender.avatar,
-        type: "new_reply_comment",
-        content: `<span style="font-weight: 600">${sender.userName}</span> has responded to your post: <span style="font-weight: 600">${art.title}</span>`,
-        hyperLink: `/pin/${art._id}`,
-      };
-      // // Save notification to Notification table
-      await this.saveNotification(notificationData);
+      if (receiver._id.toString() !== sender._id.toString()) {
+        const notificationData = {
+          receiverId: receiver._id,
+          senderId: sender._id,
+          senderAvatar: sender.avatar,
+          type: "new_reply_comment",
+          content: `<span style="font-weight: 600">${sender.userName}</span> has responded to your post: <span style="font-weight: 600">${art.title}</span>`,
+          hyperLink: `/pin/${art._id}`,
+        };
+        // // Save notification to Notification table
+        await this.saveNotification(notificationData);
+      }
     } catch (error) {
       throw error;
     }
