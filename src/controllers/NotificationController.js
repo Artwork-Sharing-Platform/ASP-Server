@@ -1,6 +1,8 @@
 import notificationService from "../services/NotificationServices.js";
 
 class NotificationController {
+
+  // [GET] /api/v1/notification/getNotificationsByUserId/:receiverId
   async getNotificationsByUserId(req, res) {
     try {
       const { receiverId } = req.params;
@@ -13,6 +15,7 @@ class NotificationController {
     }
   }
 
+  // [GET] /api/v1/notification/getUnreadNotifications/:receiverId
   async getUnreadNotifications(req, res) {
     try {
       const { receiverId } = req.params;
@@ -25,6 +28,7 @@ class NotificationController {
     }
   }
 
+  // [PUT] /api/v1/notification/updateAllNotificationsStatus/:receiverId
   async updateAllNotificationsStatus(req, res) {
     try {
       const { receiverId } = req.params;
@@ -36,6 +40,7 @@ class NotificationController {
     }
   }
 
+  // [PUT] /api/v1/notification/updateNotificationStatusById/:id/:receiverId
   async updateNotificationStatusById(req, res) {
     try {
       const { id, receiverId } = req.params;

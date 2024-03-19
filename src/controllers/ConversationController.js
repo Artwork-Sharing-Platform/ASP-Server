@@ -1,6 +1,8 @@
 import conversationService from "../services/ConversationServices.js";
 
 class ConversationController {
+
+  // [POST] /api/v1/conversation/newConversation
   async newConversation(req, res, next) {
     try {
       const { senderId, receiverId } = req.body;
@@ -15,6 +17,7 @@ class ConversationController {
     }
   }
 
+  // [GET] /api/v1/conversation/getConversation/:userId
   async getConversation(req, res, next) {
     try {
       const { userId } = req.params;
@@ -26,6 +29,7 @@ class ConversationController {
     }
   }
 
+  // [GET] /api/v1/conversation/getConversationById/:conversationId
   async getConversationById(req, res, next) {
     try {
       const { conversationId } = req.params;

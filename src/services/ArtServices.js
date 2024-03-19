@@ -98,13 +98,6 @@ class ArtServices {
       const newArtwork = new Art(newArt);
       newArtwork.createdAtArt = Date.now();
       await newArtwork.save();
-
-      const artService = new ArtServices();
-
-      if (newArtwork.isCheckedAds === true) {
-        await artService.schedulePostPush(newArtwork);
-      }
-
       await NotificationService.sendPostArtworkNotificationToFollowers(
         newArtwork
       );
