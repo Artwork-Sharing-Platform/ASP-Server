@@ -24,6 +24,17 @@ class AuthController {
     }
   }
 
+  async loginMobile(req, res, next) {
+    try {
+        const loginMobile = await AuthService.loginMobile(req.body);
+        res.status(200).json(loginMobile);
+    }
+    catch (error) {
+      res.status(500).json({ message: error.message });
+      next();
+  }
+}
+
   // [POST] /api/v1/auth/signup
   async signup(req, res, next) {
     try {
