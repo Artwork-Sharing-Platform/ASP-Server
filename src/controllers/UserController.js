@@ -1,6 +1,8 @@
 import UserService from "../services/UserServices.js";
 
 class UserController {
+
+  // [GET] /api/v1/user/getUserById/:id
   async getUserById(req, res, next) {
     try {
       const { id } = req.params;
@@ -12,6 +14,7 @@ class UserController {
     }
   }
 
+  // [POST] /api/v1/user/updateUser/:id
   async updateUser(req, res, next) {
     try {
       const { id } = req.params;
@@ -24,6 +27,7 @@ class UserController {
     }
   }
 
+  // [GET] /api/v1/user/getListUserByName/:userName
   async getListUserByName(req, res) {
     try {
       const { userName } = req.params;
@@ -35,6 +39,7 @@ class UserController {
     }
   }
 
+  // [GET] /api/v1/user/getListUserByEmail/:email
   async getListUserByEmail(req, res) {
     try {
       const { email } = req.params;
@@ -46,6 +51,7 @@ class UserController {
     }
   }
 
+  // [GET] /api/v1/user/getListUser
   async getListUser(req, res) {
     try {
       const userList = await UserService.getListUser();
@@ -55,6 +61,7 @@ class UserController {
     }
   }
 
+  // [POST] /api/v1/user/updateStatusUser/:id
   async updateStatusUser(req, res, next) {
     try {
       const { id } = req.params;

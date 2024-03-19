@@ -1,6 +1,8 @@
 import PaymentService from "../services/PaymentServices.js";
 
 class PaymentController {
+
+  // [GET] /api/v1/payment/create_payment_url/:amount/:accountId/:type
   async createPaymentUrl(req, res, next) {
     try {
       const { amount, accountId, type } = req.params;
@@ -18,6 +20,7 @@ class PaymentController {
     }
   }
 
+  // [GET] /api/v1/payment/create_payment_url_upgrade/:amount/:accountId/:type
   async createPaymentUrlUpgrade(req, res, next) {
     try {
       const { amount, accountId, type } = req.params;
@@ -35,6 +38,7 @@ class PaymentController {
     }
   }
 
+  // [GET] /api/v1/payment/return_Url/:accountId/:amount/:type
   async vnPayReturn(req, res, next) {
     try {
       const { query, params } = req;
@@ -54,6 +58,7 @@ class PaymentController {
     }
   }
 
+  // [GET] /api/v1/payment/return_Url_upgrade/:accountId/:amount/:type
   async vnPayReturnUpgrade(req, res, next) {
     try {
       const { query, params } = req;
