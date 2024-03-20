@@ -264,8 +264,7 @@ class ArtServices {
         const scheduledTime = new Date(post.timestamp);
         const task = cron.schedule(`*/1 * * * *`, async () => {
           try {
-            const artService = new ArtServices();
-            await artService.pushPostToTop(post);
+            await this.pushPostToTop(post);
           } catch (error) {
             console.error(error);
           }
@@ -340,9 +339,7 @@ class ArtServices {
 
   async pushPostToTop(post) {
     try {
-      // Cập nhật thuộc tính của bài viết trong cơ sở dữ liệu
-      const artService = new ArtServices();
-      artService.updateArtwork(post._id);
+      await this.updateArtwork(post._id);
       console.log(`Post pushed to top successfully: ${post._id}`);
     } catch (error) {
       throw new Error(`Error pushing post to top: ${post._id}`);
