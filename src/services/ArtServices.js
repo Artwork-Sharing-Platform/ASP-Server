@@ -101,10 +101,59 @@ class ArtServices {
       await NotificationService.sendPostArtworkNotificationToFollowers(
         newArtwork
       );
+      if (newArtwork.isCheckedAds === true) {
+        await this.schedulePostPush(newArtwork);
+      }
 
       return newArtwork;
     } catch (error) {
       throw error;
+    }
+  }
+
+  async schedulePostPush(post) {
+    try {
+      const scheduledTasks = {};
+      const task = cron.schedule(`*/30 * * * * *`, async () => {
+        try {
+          await this.pushPostToTop(post);
+        } catch (error) {
+          console.error(error);
+        }
+      });
+
+      setTimeout(() => {
+        task.stop();
+        delete scheduledTasks[post._id];
+        console.log("Công việc đã được dừng");
+        post.isCheckedAds = false;
+        post.save();
+      }, 2 * 60 * 1000);
+    } catch (error) {
+      console.error(`Error scheduling post push: ${post._id}`, error);
+    }
+  }
+
+  async pushPostToTop(post) {
+    try {
+      await this.updateArtwork(post._id);
+      console.log(`Post pushed to top successfully: ${post._id}`);
+    } catch (error) {
+      throw new Error(`Error pushing post to top: ${post._id}`);
+    }
+  }
+
+  async updateArtwork(artworkId) {
+    try {
+      const artwork = await Art.findById(artworkId);
+      if (!artwork) {
+        throw new Error("Artwork not found");
+      }
+      artwork.createdAtArt = Date.now();
+      await artwork.save();
+      return artwork;
+    } catch (error) {
+      throw new Error(`Error updating artwork: ${error.message}`);
     }
   }
 
@@ -256,60 +305,6 @@ class ArtServices {
     }
   }
 
-  async schedulePostPush(post) {
-    try {
-      const scheduledTasks = {};
-      // Kiểm tra xem bài đăng đã được đặt lịch chưa
-      if (!scheduledTasks[post._id]) {
-        const scheduledTime = new Date(post.timestamp);
-        const task = cron.schedule(`*/1 * * * *`, async () => {
-          try {
-            await this.pushPostToTop(post);
-          } catch (error) {
-            console.error(error);
-          }
-        });
-
-        // Lưu trữ công việc lập lịch
-        scheduledTasks[post._id] = task;
-
-        // Dừng công việc lập lịch sau khi đã đủ thời gian
-        setTimeout(() => {
-          task.stop(); // Dừng công việc lập lịch
-          delete scheduledTasks[post._id];
-          console.log("Công việc đã được dừng");
-          post.isCheckedAds = false;
-          post.save();
-          return "Công việc đã được dừng";
-        }, 3 * 60 * 1000); // 3m
-      }
-    } catch (error) {
-      console.error(`Error scheduling post push: ${post._id}`, error);
-    }
-  }
-
-  async updateArtwork(artworkId) {
-    try {
-      // Tìm bài viết trong cơ sở dữ liệu dựa trên ID
-      const artwork = await Art.findById(artworkId);
-
-      if (!artwork) {
-        throw new Error("Artwork not found");
-      }
-
-      // Cập nhật trường isTop và topTime
-
-      artwork.createdAtArt = Date.now();
-
-      // Lưu thay đổi vào cơ sở dữ liệu
-      await artwork.save();
-
-      return artwork;
-    } catch (error) {
-      throw new Error(`Error updating artwork: ${error.message}`);
-    }
-  }
-
   async updateArtworkStatus(art) {
     try {
       const artwork = await Art.findById({ _id: art.key });
@@ -334,15 +329,6 @@ class ArtServices {
       return artWorks;
     } catch (error) {
       throw error;
-    }
-  }
-
-  async pushPostToTop(post) {
-    try {
-      await this.updateArtwork(post._id);
-      console.log(`Post pushed to top successfully: ${post._id}`);
-    } catch (error) {
-      throw new Error(`Error pushing post to top: ${post._id}`);
     }
   }
 
