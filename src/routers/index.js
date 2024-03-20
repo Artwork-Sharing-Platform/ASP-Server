@@ -12,6 +12,7 @@ import NotificationRouter from "./notification.js";
 import PackageRouter from "./package.js";
 import ConversationRouter from "./conversation.js";
 import MessageRouter from "./message.js";
+import AdminRouter from "./admin.js";
 
 const route = (app) => {
   app.use("/api/v1/auth", AuthRouter);
@@ -28,6 +29,7 @@ const route = (app) => {
   app.use("/api/v1/package", PackageRouter);
   app.use("/api/v1/conversation", ConversationRouter);
   app.use("/api/v1/message", MessageRouter);
+  app.use("/api/v1/admin", AdminRouter);
 };
 
 export default route;
