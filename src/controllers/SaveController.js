@@ -8,7 +8,7 @@ class SaveController {
       const savedArtwork = await saveService.saveArtToBookmark(userID, artID);
       res.status(200).json(savedArtwork);
     } catch (err) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: err.message });
     }
   }
   //[GET] /api/v1/save/getAllArts/:userId
@@ -19,7 +19,7 @@ class SaveController {
 
       res.status(200).json(artIDs);
     } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
+      res.status(500).json({  message: error.message });
     }
   }
   //[DELETE] /api/v1/save
@@ -31,7 +31,7 @@ class SaveController {
       );
       res.status(200).json({ message: "Success" });
     } catch (err) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: err.message });
     }
   }
 }
