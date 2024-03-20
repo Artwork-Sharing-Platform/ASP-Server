@@ -300,7 +300,7 @@ class ArtServices {
 
       // Cập nhật trường isTop và topTime
 
-      artwork.createdAtArt = Date.now() + 7 * 60 * 60 * 1000;
+      artwork.createdAtArt = Date.now();
 
       // Lưu thay đổi vào cơ sở dữ liệu
       await artwork.save();
