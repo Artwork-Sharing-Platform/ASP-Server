@@ -262,7 +262,7 @@ class ArtServices {
       // Kiểm tra xem bài đăng đã được đặt lịch chưa
       if (!scheduledTasks[post._id]) {
         const scheduledTime = new Date(post.timestamp);
-        const task = cron.schedule(`*/10 * * * * * *`, async () => {
+        const task = cron.schedule(`*/1 * * * *`, async () => {
           try {
             const artService = new ArtServices();
             await artService.pushPostToTop(post);
@@ -282,7 +282,7 @@ class ArtServices {
           post.isCheckedAds = false;
           post.save();
           return "Công việc đã được dừng";
-        }, 30 * 1000); // 30 giây
+        }, 3 * 60 * 1000); // 3m
       }
     } catch (error) {
       console.error(`Error scheduling post push: ${post._id}`, error);
