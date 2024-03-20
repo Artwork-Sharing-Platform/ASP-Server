@@ -114,21 +114,25 @@ class ArtServices {
   async schedulePostPush(post) {
     try {
       const scheduledTasks = {};
-      const task = cron.schedule(`*/30 * * * * *`, async () => {
-        try {
-          await this.pushPostToTop(post);
-        } catch (error) {
-          console.error(error);
-        }
-      });
+      if (!scheduledTasks[post._id]) {
+        const task = cron.schedule(`*/10 * * * * *`, async () => {
+          try {
+            await this.pushPostToTop(post);
+          } catch (error) {
+            console.error(error);
+          }
+        });
 
-      setTimeout(() => {
-        task.stop();
-        delete scheduledTasks[post._id];
-        console.log("Công việc đã được dừng");
-        post.isCheckedAds = false;
-        post.save();
-      }, 2 * 60 * 1000);
+        scheduledTasks[post._id] = task;
+
+        setTimeout(() => {
+          task.stop();
+          delete scheduledTasks[post._id];
+          console.log("Công việc đã được dừng");
+          post.isCheckedAds = false;
+          post.save();
+        }, 1 * 60 * 1000);
+      }
     } catch (error) {
       console.error(`Error scheduling post push: ${post._id}`, error);
     }
