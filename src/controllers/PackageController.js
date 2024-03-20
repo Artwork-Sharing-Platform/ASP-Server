@@ -7,7 +7,7 @@ class PackageController {
       const packageResponse = await packageService.addPackage(packageData);
       res.status(200).json(packageResponse);
     } catch (err) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: err.message });
     }
   }
 //[POST] /api/v1/package/addFeature
@@ -17,7 +17,7 @@ class PackageController {
       const feature = await packageService.addFeature(featureData);
       res.status(200).json(feature);
     } catch (err) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: err.message });
     }
   }
 //[POST] /api/v1/package/free-trial-package
@@ -27,7 +27,7 @@ class PackageController {
       const result = await packageService.freeTrialPackage(freeTrialPackage);
       res.status(200).json(result);
     } catch (err) {
-      res.status(500).json({ message: error.message});
+      res.status(500).json({ message: err.message});
     }
   }
 //[GET] /api/v1/package/getPackageName/:id
@@ -37,7 +37,7 @@ class PackageController {
       const name = await packageService.getPackageName(id);
       res.status(200).json(name);
     } catch (err) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: err.message });
     }
   }
 //[GET] /api/v1/package/getFeatureByUserId/:userId
@@ -47,7 +47,7 @@ class PackageController {
       const feature = await packageService.getFeatureByUserId(userId);
       res.status(200).json(feature);
     } catch (err) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: err.message });
     }
   }
   //[GET] /api/v1/package/decreaseDownloadCount/:userId/:packageId
@@ -60,7 +60,7 @@ class PackageController {
       );
       res.status(200).json(feature);
     } catch (err) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: err.message });
     }
   }
 }
