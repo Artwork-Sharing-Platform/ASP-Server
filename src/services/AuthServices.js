@@ -166,10 +166,12 @@ class AuthService {
           firstName: userData.firstName,
           lastName: userData.lastName,
           userName: userData.userName,
-          email: userData.email
+          email: userData.email,
+          avatar:
+            "https://firebasestorage.googleapis.com/v0/b/social-media-app-44a6c.appspot.com/o/user-default.png?alt=media&token=cb979468-87df-4233-9def-57459113250e",
         });
         await user.save();
-        
+
         return { user };
       }
     } catch (error) {

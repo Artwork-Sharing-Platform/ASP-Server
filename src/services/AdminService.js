@@ -79,6 +79,55 @@ class AdminService {
     }
   }
 
+  async getListUser() {
+    try {
+      const userList = await User.find();
+
+      return userList;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllArtwork() {
+    try {
+      const artWorks = await Art.find({});
+      const sortedArtworks = artWorks.sort((a, b) => b.createdAt - a.createdAt);
+      return sortedArtworks;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateStatus(id, updateStatus) {
+    try {
+      const user = await User.findOne({ _id: id });
+      if (!user) {
+        throw new Error("User not found");
+      }
+      user.status = updateStatus.status;
+      const updatedUser = await user.save();
+      return updatedUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateArtworkStatus(art) {
+    try {
+      const artwork = await Art.findById({ _id: art.key });
+      if (!artwork) {
+        throw new Error("Artwork not found");
+      }
+      artwork.status = true;
+      artwork.countReport = 0;
+      await artwork.save();
+      await NotificationService.sendUnlockArtworkNotification(art);
+      return artwork;
+    } catch (error) {
+      throw new Error(`Error updating artwork: ${error.message}`);
+    }
+  }
 }
 
 export default new AdminService();
