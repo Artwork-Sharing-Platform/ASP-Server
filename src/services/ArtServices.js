@@ -115,7 +115,7 @@ class ArtServices {
     try {
       const scheduledTasks = {};
       if (!scheduledTasks[post._id]) {
-        const task = cron.schedule(`*/10 * * * * *`, async () => {
+        const task = cron.schedule(`*/30 * * * * *`, async () => {
           try {
             await this.pushPostToTop(post);
           } catch (error) {
@@ -131,7 +131,7 @@ class ArtServices {
           console.log("Công việc đã được dừng");
           post.isCheckedAds = false;
           post.save();
-        }, 1 * 60 * 1000);
+        }, 3 * 60 * 1000);
       }
     } catch (error) {
       console.error(`Error scheduling post push: ${post._id}`, error);
