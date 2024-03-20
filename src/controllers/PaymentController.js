@@ -77,6 +77,18 @@ class PaymentController {
       next();
     }
   }
+
+  async createPaymentUrlRegisterCreator(req, res){
+    try {
+        const { accountId } = req.params;
+        const url = await PaymentService.createPaymentUrlRegisterCreator(accountId);
+        res.redirect(url.checkoutUrl)
+    } catch (error) {
+        res.status(500).send(error)
+    }
 }
+}
+
+
 
 export default new PaymentController();

@@ -154,6 +154,28 @@ class AuthService {
       throw error;
     }
   }
+
+  async loginMobile(userData) {
+    try {
+      let user;
+      user = await User.findOne({ email: userData.email });
+      if (user) {
+        return { user };
+      } else {
+        user = new User({
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          userName: userData.userName,
+          email: userData.email
+        });
+        await user.save();
+        
+        return { user };
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default new AuthService();
