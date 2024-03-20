@@ -60,6 +60,25 @@ class AdminService {
       throw error;
     }
   }
+
+  async countPackage() {
+    try {
+      const packages = await Package.find({
+        name: { $in: ["Basic", "Business", "Enterprise"] },
+      });
+      const featureCounts = await Promise.all(
+        packages.map(async (pkg) => {
+          const features = await Feature.find({ packageId: pkg._id });
+          return features.length;
+        })
+      );
+
+      return featureCounts;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
 
 export default new AdminService();
